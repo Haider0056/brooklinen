@@ -33,18 +33,28 @@ export async function POST(request: NextRequest) {
             .catch(error => {
                 // If we get a timeout or other error
                 console.error("API request failed:", error);
-                throw new Error(`Request failed: ${error.message}`);
+                throw new Error(`Request failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
             });
         
         return NextResponse.json({ response });
     } catch (error) {
         console.error("API error:", error);
         
+        // Properly handle the unknown error type
+        const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred";
+        
+        // Check if the error has a partialResponse property (using type guard)
+        const partialResponse = error && 
+            typeof error === 'object' && 
+            'partialResponse' in error ? 
+            (error as { partialResponse: unknown }).partialResponse : 
+            null;
+        
         // Return a graceful error response
         return NextResponse.json(
             { 
-                error: error.message || "An unexpected error occurred",
-                partial: error.partialResponse || null // In case we have partial results
+                error: errorMessage,
+                partial: partialResponse
             },
             { status: 500 }
         );
