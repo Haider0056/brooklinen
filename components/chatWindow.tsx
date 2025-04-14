@@ -17,13 +17,24 @@ export default function ChatWindow() {
     }
   }, [chatHistory, streamingMessage]);
 
-  // Function to clean response text by removing unwanted characters
   const cleanResponseText = (text: string): string => {
+    // First check if the text is wrapped in {"response":"..."} format
+    const responseMatch = text.match(/^\s*\{\s*"response"\s*:\s*"(.+)"\s*\}\s*$/s);
+    if (responseMatch) {
+      text = responseMatch[1];
+    }
+    
     // Replace escaped newlines with actual newlines
     let cleaned = text.replace(/\\n/g, "\n");
     
     // Remove any remaining escape sequences
     cleaned = cleaned.replace(/\\(.)/g, "$1");
+    
+    // Handle standard Markdown bold text (**word**)
+    cleaned = cleaned.replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>');
+    
+    // Handle Markdown headings (### Heading)
+    cleaned = cleaned.replace(/###\s+([^\n]+)/g, '\n<h3>$1</h3>\n');
     
     // Handle any JSON-related formatting issues
     if (cleaned.startsWith('"') && cleaned.endsWith('"')) {
