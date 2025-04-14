@@ -121,7 +121,7 @@ export default function ChatWindow() {
           }
           setStreamingMessage("");
         }}
-        handleNewMessage={(newMessage: string | any) => {
+        handleNewMessage={(newMessage: string | { content?: string }) => {
           const messageText = typeof newMessage === "string"
             ? newMessage
             : newMessage.content || JSON.stringify(newMessage);
