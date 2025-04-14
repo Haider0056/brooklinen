@@ -71,6 +71,6 @@ export const chatWithLangbase = async (message: string) => {
         return result;
     } catch (error) {
         console.error("Langbase Chat Error:", error);
-        throw new Error("Failed to chat with Langbase.");
+        throw new Error("Failed to chat with Langbase."); //langbase error
     }
 };

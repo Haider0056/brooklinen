@@ -4,7 +4,6 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "vercel-build": "npm install --legacy-peer-deps && next build", 
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -15,8 +14,8 @@
     "dotenv": "^16.4.7",
     "langbase": "^1.1.34",
     "next": "15.2.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "swr": "^2.3.2"
   },
   "devDependencies": {
