@@ -36,7 +36,9 @@ export const uploadToMemory = async (content: string, filename: string) => {
         return response;
     } catch (error) {
         console.error("Error uploading to memory:", error);
-        throw new Error(`Upload failed: ${error.message}`);
+        // Fix type error by properly handling unknown error
+        const errorMessage = error instanceof Error ? error.message : "Unknown error";
+        throw new Error(`Upload failed: ${errorMessage}`);
     }
 };
 
@@ -115,6 +117,8 @@ export const chatWithLangbase = async (message: string) => {
         return result;
     } catch (error) {
         console.error("Langbase Chat Error:", error);
-        throw new Error(`Chat failed: ${error.message}`);
+        // Fix type error by properly handling unknown error
+        const errorMessage = error instanceof Error ? error.message : "Unknown error";
+        throw new Error(`Chat failed: ${errorMessage}`);
     }
 };
