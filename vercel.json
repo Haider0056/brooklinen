@@ -1,0 +1,16 @@
+{
+    "functions": {
+      "api/*.js": {
+        "maxDuration": 60
+      },
+      "api/*.ts": {
+        "maxDuration": 60
+      },
+      "app/api/**/*.js": {
+        "maxDuration": 60
+      },
+      "app/api/**/*.ts": {
+        "maxDuration": 60
+      }
+    }
+  }
