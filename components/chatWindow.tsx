@@ -19,7 +19,9 @@ export default function ChatWindow() {
 
   const cleanResponseText = (text: string): string => {
     // First check if the text is wrapped in {"response":"..."} format
-    const responseMatch = text.match(/^\s*\{\s*"response"\s*:\s*"(.+)"\s*\}\s*$/s);
+    // Using a more compatible approach without the /s flag
+    const responsePattern = /^\s*\{\s*"response"\s*:\s*"([\s\S]+)"\s*\}\s*$/;
+    const responseMatch = text.match(responsePattern);
     if (responseMatch) {
       text = responseMatch[1];
     }
