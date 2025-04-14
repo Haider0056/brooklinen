@@ -1,15 +1,6 @@
 {
     "functions": {
-      "api/*.js": {
-        "maxDuration": 60
-      },
-      "api/*.ts": {
-        "maxDuration": 60
-      },
-      "app/api/**/*.js": {
-        "maxDuration": 60
-      },
-      "app/api/**/*.ts": {
+      "app/api/chat/route.ts": {
         "maxDuration": 60
       }
     }
