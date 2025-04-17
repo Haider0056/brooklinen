@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Living Abroad",
-  description: "Chat bot for general queries for living abroad",
+  title: "brooklinen",
+  description: "Chat bot for general queries for brooklinen",
 };
 
 export default function RootLayout({

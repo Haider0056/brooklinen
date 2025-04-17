@@ -20,7 +20,7 @@ export const uploadToMemory = async (content: string, filename: string) => {
         // Add timeout handling for the upload operation
         const uploadPromise = langbase.memory.documents.upload({
             document: buffer,
-            memoryName: "living-abroad",
+            memoryName: "brooklinen",
             contentType: "text/plain",
             documentName: filename,
         });
@@ -59,7 +59,7 @@ export const chatWithLangbase = async (message: string) => {
         
         const startTime = Date.now();
         const response = await langbase.pipe.run({
-            name: "living-abroad",
+            name: "brooklinen",
             stream: true,
             messages: plainMessage,
             ...(threadId && { threadId })
