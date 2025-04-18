@@ -20,7 +20,7 @@ export const uploadToMemory = async (content: string, filename: string) => {
         // Add timeout handling for the upload operation
         const uploadPromise = langbase.memory.documents.upload({
             document: buffer,
-            memoryName: "brooklinen",
+            memoryName: "brooklinen2",
             contentType: "text/plain",
             documentName: filename,
         });
@@ -53,37 +53,72 @@ let threadId: string | undefined;
 
 export const chatWithLangbase = async (message: string) => {
     try {
-        console.log("Sending message to Langbase:", message);
-
+        console.log("Sending message to Langbase...");
+        
         plainMessage.push({ role: "user", content: message });
-
+        
+        const startTime = Date.now();
         const response = await langbase.pipe.run({
             name: "brooklinen",
             stream: true,
             messages: plainMessage,
-            ...(threadId && { threadId }) 
+            ...(threadId && { threadId })
         });
 
         if (!threadId && response.threadId) {
-            threadId = response.threadId; 
+            threadId = response.threadId;
         }
 
         const { stream } = response;
         const runner = getRunner(stream);
 
         let result = "";
+        let isCompleted = false;
+        
+        // Process stream with timeout awareness
         await new Promise<void>((resolve) => {
+            // Track if we're approaching the timeout
+            const checkTimeRemaining = () => {
+                const elapsed = Date.now() - startTime;
+                return elapsed < MAX_PROCESSING_TIME;
+            };
+            
+            // Handle content streaming
             runner.on("content", (content) => {
-                result += content;
+                // Only append content if we still have time
+                if (checkTimeRemaining()) {
+                    result += content;
+                }
             });
+            
+            // Normal completion
             runner.on("end", () => {
+                isCompleted = true;
                 resolve();
             });
+            
+            // Force resolve after timeout
+            setTimeout(() => {
+                if (!isCompleted) {
+                    console.log("Stream processing reached timeout limit");
+                    resolve();
+                }
+            }, MAX_PROCESSING_TIME);
         });
 
+        // Add a note if the response was truncated due to timeout
+        if (Date.now() - startTime >= MAX_PROCESSING_TIME) {
+            result += "\n\n[Note: Response was truncated due to time constraints]";
+        }
+
+        // Add assistant's response to message history
+        plainMessage.push({ role: "assistant", content: result });
+        
         return result;
     } catch (error) {
         console.error("Langbase Chat Error:", error);
-        throw new Error("Failed to chat with Langbase.");
+        // Fix type error by properly handling unknown error
+        const errorMessage = error instanceof Error ? error.message : "Unknown error";
+        throw new Error(`Chat failed: ${errorMessage}`);
     }
 };

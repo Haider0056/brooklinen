@@ -145,9 +145,9 @@ export default function ChatWindow() {
           ]);
         }}
         messages={formattedMessages}
-        primaryColor="#3498db"
+        primaryColor="#283455"
         inputMsgPlaceholder="Type your message..."
-        chatbotName="Customer Support"
+        chatbotName="Brooklinen Customer Support"
         isTypingMessage={isTyping ? "Typing..." : ""}
         IncommingErrMsg="Oops! Something went wrong. Try again."
         chatIcon={<div>O</div>}
