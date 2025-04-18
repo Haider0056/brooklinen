@@ -59,7 +59,7 @@ export const chatWithLangbase = async (message: string) => {
         
         const startTime = Date.now();
         const response = await langbase.pipe.run({
-            name: "brooklinen",
+            name: "brooklinen2",
             stream: true,
             messages: plainMessage,
             ...(threadId && { threadId })
