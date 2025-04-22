@@ -47,7 +47,7 @@ export const chatWithLangbase = async (message: string, threadId?: string) => {
         
         const startTime = Date.now();
         const response = await langbase.pipe.run({
-            name: "living-abroad",
+            name: "brooklinen",
             stream: true,
             messages: [{ role: "user", content: message }], // Only send the current message
             ...(threadId && { threadId }) // Include threadId if available
