@@ -19,7 +19,7 @@ export const uploadToMemory = async (content: string, filename: string) => {
         // Add timeout handling for the upload operation
         const uploadPromise = langbase.memory.documents.upload({
             document: buffer,
-            memoryName: "living-abroad",
+            memoryName: "brooklinen",
             contentType: "text/plain",
             documentName: filename,
         });
