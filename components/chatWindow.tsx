@@ -134,11 +134,25 @@ export default function ChatWindow() {
       : [])
   ];
 
-
+  // Function to clear conversation and threadId
+  const clearConversation = () => {
+    setChatHistory([]);
+    setThreadId(null);
+    localStorage.removeItem("chatThreadId");
+    localStorage.removeItem("chatHistory");
+  };
 
   return (
     <div className="flex flex-col w-full h-full">
- 
+      {/* Optional: Add a clear conversation button */}
+      <div className="flex justify-end p-2">
+        <button 
+          onClick={clearConversation}
+          className="px-3 py-1 text-sm bg-gray-200 rounded hover:bg-gray-300"
+        >
+          Clear Conversation
+        </button>
+      </div>
       
       <div className="flex-1">
         <ChatBotWidget
